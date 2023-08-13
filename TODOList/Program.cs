@@ -1,9 +1,9 @@
 ﻿
-class TODOLIST
-{
+using System;
 
-    static void Main(string[] args)
-    {
+
+
+
         List<string> todoList = new List<string>();
         bool exit = false;
         string todo;
@@ -23,94 +23,14 @@ class TODOLIST
             switch (toUpperInput)
             {
                 case "S":
-                    if (todoList.Count > 0)
-                    {
-                        for (var i = 0; i < todoList.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}.{todoList[i]}");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No TODOs have been added yet.");
-                    }
-                    Console.WriteLine("What do you want to do?");
+                    SeeTodo();
                     break;
                 case "A":
-                    Console.WriteLine("Enter the TODO description:");
-                    todo = Console.ReadLine();
-
-                    if (todo == " ")
-                    {
-                        Console.WriteLine("The description cannot be empty.");
-                        Console.WriteLine("Enter the TODO description");
-                    }
-                    else if (todoList.Contains(todo))
-
-                    {
-                        Console.WriteLine("The description must be unique.");
-                        Console.WriteLine("Enter the TODO description");
-                    }
-                    else
-
-                    {
-                        todoList.Add(todo);
-                        Console.WriteLine($"TODO successfully added: {todo}");
-                        Console.WriteLine($"Lista to: ");
-                        for (var i = 0; i < todoList.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}.{todoList[i]}");
-                        }
-                        Console.WriteLine("What do you want to do?");
-                    }
-
+                    AddTodo();
                     break;
-
                 case "R":
-
-                    Console.WriteLine("Select the index of the TODO you want to remove:");
-                    if (todoList.Count > 0)
-                    {
-                        for (var i = 0; i < todoList.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}.{todoList[i]}");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No TODOs have been added yet.");
-                        break;
-                    }
-
-                    try
-                    {
-                        do
-                        {
-                            index = Console.ReadLine();
-                            index1 = int.Parse(index);
-                            index2 = index1 - 1;
-
-                            if (index1 > todoList.Count)
-                            {
-                                Console.WriteLine("The given index is not valid.");
-                                Console.WriteLine("Select the index of the TODO you want to remove");
-                            }
-                            else if (index1 == todoList.Count)
-                            {
-                                Console.WriteLine($"TODO removed: {todoList[index2]} ");
-                                todoList.RemoveAt(index2);
-                                Console.WriteLine("What do you want to do?");
-                                break;
-                            }
-
-                        } while (index1 != todoList.Count);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Selected index cannot be empty.");
-                        Console.WriteLine("Select the index of the TODO you want to remove");
-                    }
-                    break;
+                    RemoveTodo();
+                         break;
                 case "E":
                     exit = true;
                     break;
@@ -120,5 +40,102 @@ class TODOLIST
             }
         } while (exit == false);
 
+
+
+    void SeeTodo()
+    {
+        if (todoList.Count > 0)
+        {
+            for (var i = 0; i < todoList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}.{todoList[i]}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No TODOs have been added yet.");
+        }
+        Console.WriteLine("What do you want to do?");
     }
-}
+
+    void AddTodo()
+    {
+        bool isValidTodo = false;
+        while (!isValidTodo)
+        {
+            Console.WriteLine("Enter the TODO description:");
+            todo = Console.ReadLine();
+
+            if (todo == " ")
+            {
+                Console.WriteLine("The description cannot be empty.");
+
+            }
+            else if (todoList.Contains(todo))
+
+            {
+                Console.WriteLine("The description must be unique.");
+
+            }
+            else
+
+            {
+                isValidTodo = true;
+                todoList.Add(todo);
+                Console.WriteLine($"TODO successfully added: {todo}");
+                Console.WriteLine($"Lista to: ");
+                for (var i = 0; i < todoList.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}.{todoList[i]}");
+                }
+                Console.WriteLine("What do you want to do?");
+            }
+        }
+    }
+
+    void RemoveTodo()
+    {
+        Console.WriteLine("Select the index of the TODO you want to remove:");
+        if (todoList.Count > 0)
+        {
+            for (var i = 0; i < todoList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}.{todoList[i]}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No TODOs have been added yet.");
+            return;
+        }
+
+        try
+        {
+            do
+            {
+                index = Console.ReadLine();
+                index1 = int.Parse(index);
+                index2 = index1 - 1;
+
+                if (index1 > todoList.Count)
+                {
+                    Console.WriteLine("The given index is not valid.");
+                    Console.WriteLine("Select the index of the TODO you want to remove");
+                }
+                else if (index1 == todoList.Count)
+                {
+                    Console.WriteLine($"TODO removed: {todoList[index2]} ");
+                    todoList.RemoveAt(index2);
+                    Console.WriteLine("What do you want to do?");
+                    break;
+                }
+
+            } while (index1 != todoList.Count);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Selected index cannot be empty.");
+            Console.WriteLine("Select the index of the TODO you want to remove");
+        }
+    }
+
